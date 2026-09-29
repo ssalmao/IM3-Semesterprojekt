@@ -1,0 +1,649 @@
+/* ===========================================================================
+   Hitzesommer – Gestaltung der Story-Seite
+   ===========================================================================
+
+   Das Beispielprojekt zeigt, wie eine fertige Datengeschichte aussehen kann:
+   Fliesstext und Diagramme wechseln sich ab, die Diagramme sind breiter als
+   der Text, und alles bleibt in den Farben des Kurses.
+
+   Aufbau dieser Datei:
+
+     1. Farben, Schrift und Grundgerüst
+     2. Das Raster: Text schmal, Diagramme breit
+     3. Kopf der Geschichte
+     4. Kennzahlen
+     5. Fliesstext, Zwischentitel, Zitate
+     6. Bedienelemente
+     7. Diagramme
+     8. Kästen: Einschränkungen und Methode
+     9. Fuss
+    10. Bewegung und kleine Bildschirme
+
+   Die Schriften sind bewusst solche, die auf jedem Rechner vorhanden sind:
+   eine Serifenschrift für die Geschichte, eine serifenlose für Zahlen,
+   Beschriftungen und Bedienelemente. Nichts wird nachgeladen – die Seite
+   funktioniert auch am Marktstand ohne Netz.
+   ------------------------------------------------------------------------ */
+
+/* --- 1. Farben, Schrift und Grundgerüst ---------------------------------- */
+
+:root {
+  /* Die Kursfarben. Die drei Städte behalten sie in jedem Diagramm. */
+  --petrol: #4b93a4;
+  --petrol-dark: #2f6b7a;
+  --oliv: #8b8a6e;
+  --orange: #b5723a;
+
+  --text: #33332f;
+  --muted: #7a7a72;
+  --rule: #e0dfd6;
+  --paper: #fbfaf7;
+  --box: #f4f3ee;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    "Hoefler Text", Georgia, serif;
+  --sans: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --measure: 40rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Eine sehr feine Körnung über der ganzen Seite. Sie nimmt dem Weiss das
+   Digitale und kostet nichts: Das Muster steckt als SVG direkt im CSS. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- 2. Das Raster: Text schmal, Diagramme breit ------------------------- */
+/*
+   Ein Raster mit benannten Spalten. Jeder Abschnitt sagt selbst, wie breit er
+   sein will – das ist der ganze Trick hinter dem Rhythmus dieser Seite:
+
+     text   Fliesstext, rund 65 Zeichen pro Zeile
+     wide   Diagramme, breiter als der Text
+     full   randlos über die ganze Fensterbreite
+*/
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.25rem, 1fr)
+    [wide-start] minmax(0, 8rem)
+    [text-start] minmax(0, var(--measure)) [text-end]
+    minmax(0, 8rem) [wide-end]
+    minmax(1.25rem, 1fr) [full-end];
+}
+
+.grid > * {
+  grid-column: text;
+}
+
+.is-wide {
+  grid-column: wide;
+}
+
+.is-full {
+  grid-column: full;
+}
+
+/* --- 3. Kopf der Geschichte ---------------------------------------------- */
+
+.story-header {
+  padding: clamp(3rem, 9vw, 7rem) 0 clamp(2rem, 5vw, 3.5rem);
+  border-bottom: 1px solid var(--rule);
+  /* Ein sehr leiser Farbschimmer oben links, damit die Seite nicht als
+     weisses Rechteck beginnt. */
+  background:
+    radial-gradient(80ch 40ch at 12% -10%, rgba(75, 147, 164, 0.13), transparent 70%),
+    radial-gradient(60ch 30ch at 92% 0%, rgba(181, 114, 58, 0.08), transparent 70%);
+}
+
+.kicker {
+  margin: 0 0 1.4rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--petrol-dark);
+}
+
+.kicker::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  margin-top: 0.9rem;
+  border-top: 2px solid var(--orange);
+}
+
+.story-title {
+  margin: 0;
+  font-size: clamp(2.4rem, 6.4vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.story-title em {
+  font-style: italic;
+  color: var(--petrol-dark);
+}
+
+.story-lead {
+  margin: 1.6rem 0 0;
+  font-size: clamp(1.2rem, 2.1vw, 1.4rem);
+  line-height: 1.5;
+  color: #4a4a44;
+  text-wrap: pretty;
+}
+
+.byline {
+  margin: 2.2rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* --- 4. Kennzahlen -------------------------------------------------------- */
+
+.keyfigures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: clamp(2.5rem, 6vw, 4rem) 0;
+  border-block: 1px solid var(--rule);
+}
+
+.keyfigure {
+  padding: 1.9rem 1.6rem;
+  border-left: 1px solid var(--rule);
+}
+
+.keyfigure:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.keyfigure-value {
+  display: block;
+  font-size: clamp(2.1rem, 4.6vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--petrol-dark);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.keyfigure-unit {
+  font-size: 0.5em;
+  color: var(--oliv);
+}
+
+.keyfigure-label {
+  display: block;
+  margin-top: 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* --- 5. Fliesstext, Zwischentitel, Zitate -------------------------------- */
+
+/* Die Kapitelmarke bringt ihren eigenen Abstand mit. Direkt nach den
+   Kennzahlen wäre er doppelt – Ränder verrechnen sich im Raster nicht. */
+.keyfigures + .chapter {
+  margin-top: 0;
+}
+
+.chapter {
+  margin: clamp(3rem, 7vw, 4.5rem) 0 1.2rem;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--oliv);
+}
+
+h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+h3 {
+  margin: 0 0 0.6rem;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--oliv);
+}
+
+p {
+  margin: 0 0 1.15rem;
+  text-wrap: pretty;
+}
+
+/* Der Initial im ersten Absatz. Ein einzelner, bewusst gesetzter Akzent –
+   und der Grund, warum die Geschichte sofort wie eine Geschichte aussieht. */
+.opening::first-letter {
+  float: left;
+  margin: 0.42rem 0.7rem 0 0;
+  font-size: 4.2rem;
+  line-height: 0.78;
+  color: var(--petrol-dark);
+}
+
+strong {
+  font-weight: 700;
+  color: #26261f;
+}
+
+.num {
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+/* Eine Stadt im Text bekommt die Farbe, die sie im Diagramm hat. */
+.city {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.city-bern { color: var(--petrol-dark); }
+.city-chur { color: var(--orange); }
+.city-zuerich { color: #6f6e52; }
+
+.pullquote {
+  margin: 2.4rem 0;
+  padding-left: 1.6rem;
+  border-left: 3px solid var(--orange);
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+  line-height: 1.32;
+  color: var(--petrol-dark);
+  text-wrap: balance;
+}
+
+.pullquote p {
+  margin: 0;
+}
+
+/* --- 6. Bedienelemente ---------------------------------------------------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 2.5rem 0 0.75rem;
+  padding: 1.4rem 1.6rem;
+  background: var(--box);
+  border: 1px solid var(--rule);
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.control label,
+.control-label {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--oliv);
+}
+
+.control select,
+.control input[type="range"] {
+  min-width: 12rem;
+  accent-color: var(--petrol);
+}
+
+.control select {
+  padding: 0.4rem 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.control select:focus-visible,
+.switch button:focus-visible,
+.control input:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.switch {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.switch button {
+  padding: 0.45rem 0.8rem;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.switch button:hover {
+  border-color: var(--petrol);
+}
+
+.switch button.is-active {
+  color: #ffffff;
+  background: var(--petrol);
+  border-color: var(--petrol);
+}
+
+.status {
+  min-height: 1.4em;
+  margin: 0 0 1.5rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.status.is-fallback {
+  color: var(--orange);
+}
+
+.status.is-error {
+  color: #a3402a;
+  font-weight: 700;
+}
+
+/* --- 7. Diagramme --------------------------------------------------------- */
+
+.figure {
+  margin: 2rem 0 clamp(2.5rem, 6vw, 3.75rem);
+}
+
+.figure-head {
+  margin-bottom: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.figure-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.figure-note {
+  margin: 0.35rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+/* Chart.js braucht einen Behälter mit fester Höhe. Ohne ihn wächst das
+   Canvas bei jeder Aktualisierung ein Stück weiter. */
+.chart-box {
+  position: relative;
+  height: 22rem;
+  padding: 1rem 0.75rem 0.25rem;
+  background: #ffffff;
+  border: 1px solid var(--rule);
+}
+
+.chart-box-tall {
+  height: 27rem;
+}
+
+.figure-source {
+  margin: 0.7rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+/* --- 8. Kästen: Einschränkungen und Methode ------------------------------ */
+
+.aside-box {
+  margin: 2.5rem 0;
+  padding: 1.6rem 1.8rem;
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--orange);
+}
+
+.aside-box p:last-child,
+.aside-box ul:last-child {
+  margin-bottom: 0;
+}
+
+.aside-box ul {
+  margin: 0 0 1.15rem;
+  padding-left: 1.1rem;
+}
+
+.aside-box li {
+  margin-bottom: 0.5rem;
+}
+
+.method {
+  margin: clamp(3rem, 7vw, 4.5rem) 0 0;
+  padding: 2rem 0 0;
+  border-top: 2px solid var(--oliv);
+}
+
+.method dl {
+  display: grid;
+  grid-template-columns: minmax(9rem, 13rem) 1fr;
+  gap: 0.55rem 1.75rem;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.method dt {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding-top: 0.22rem;
+  color: var(--oliv);
+}
+
+.method dd {
+  margin: 0;
+}
+
+.method code,
+.chain {
+  font-family: "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  font-size: 0.82em;
+}
+
+.chain {
+  display: block;
+  overflow-x: auto;
+  margin: 0.4rem 0 0;
+  padding: 0.75rem 0.9rem;
+  background: var(--box);
+  border: 1px solid var(--rule);
+  color: var(--petrol-dark);
+  white-space: pre;
+}
+
+/* --- 9. Fuss --------------------------------------------------------------- */
+
+.story-footer {
+  margin-top: clamp(3rem, 7vw, 4.5rem);
+  padding: 2rem 0 3.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.story-footer p {
+  margin: 0 0 0.5rem;
+  max-width: 70ch;
+}
+
+.story-footer a {
+  color: var(--petrol-dark);
+}
+
+/* --- 10. Bewegung und kleine Bildschirme --------------------------------- */
+
+/* Beim Laden erscheinen Titel, Lead und Kennzahlen nacheinander. Ein einziger
+   ruhiger Auftritt wirkt besser als viele kleine Effekte überall. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.story-header > *,
+.keyfigure {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+
+.story-header > *:nth-child(1) { animation-delay: 0.05s; }
+.story-header > *:nth-child(2) { animation-delay: 0.14s; }
+.story-header > *:nth-child(3) { animation-delay: 0.23s; }
+.story-header > *:nth-child(4) { animation-delay: 0.32s; }
+
+.keyfigure:nth-child(1) { animation-delay: 0.40s; }
+.keyfigure:nth-child(2) { animation-delay: 0.48s; }
+.keyfigure:nth-child(3) { animation-delay: 0.56s; }
+
+/* Abschnitte blenden sich ein, sobald sie in Sicht kommen. Die Klasse setzt
+   script.js – ohne JavaScript bleibt alles sichtbar. */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.1rem);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 46rem) {
+  body {
+    font-size: 1.05rem;
+  }
+
+  .keyfigures {
+    grid-template-columns: 1fr;
+  }
+
+  .keyfigure {
+    padding: 1.3rem 0;
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .keyfigure:first-child {
+    border-top: 0;
+  }
+
+  .method dl {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .method dd {
+    margin-bottom: 0.8rem;
+  }
+
+  .chart-box {
+    height: 19rem;
+  }
+
+  .chart-box-tall {
+    height: 24rem;
+  }
+}
+
+/* Wer Animationen abgestellt hat, bekommt keine. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .story-header > *,
+  .keyfigure,
+  .reveal {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media print {
+  body::before,
+  .controls {
+    display: none;
+  }
+}
