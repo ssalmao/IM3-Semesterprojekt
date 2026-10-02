@@ -1,0 +1,251 @@
+{
+    "meta": {
+        "class": "mmp25c2",
+        "question": "Wie gleichmässig ist ein Semester wirklich?",
+        "semester_order": [
+            "HS25",
+            "FS26",
+            "HS26",
+            "FS27"
+        ],
+        "weekday_labels": [
+            "Montag",
+            "Dienstag",
+            "Mittwoch",
+            "Donnerstag",
+            "Freitag"
+        ],
+        "mode_labels": {
+            "in_person": "Präsenz",
+            "online": "Online",
+            "unclear": "Raum noch offen"
+        }
+    },
+    "audit": {
+        "source_rows": 2644,
+        "selected_rows": 368,
+        "duplicate_rows_removed": 43,
+        "duration_rows_corrected": 1,
+        "output_slots": 325
+    },
+    "semesters": [
+        {
+            "semester": "HS25",
+            "name": "1. Semester",
+            "blocks": 95,
+            "hours": 307,
+            "days": 51,
+            "active_weeks": 15,
+            "calendar_weeks": 17,
+            "peak_week": 1,
+            "peak_hours": 29.25
+        },
+        {
+            "semester": "FS26",
+            "name": "2. Semester",
+            "blocks": 70,
+            "hours": 227.5,
+            "days": 40,
+            "active_weeks": 12,
+            "calendar_weeks": 16,
+            "peak_week": 1,
+            "peak_hours": 32.5
+        },
+        {
+            "semester": "HS26",
+            "name": "3. Semester",
+            "blocks": 105,
+            "hours": 341.25,
+            "days": 55,
+            "active_weeks": 14,
+            "calendar_weeks": 14,
+            "peak_week": 6,
+            "peak_hours": 32.5
+        },
+        {
+            "semester": "FS27",
+            "name": "4. Semester",
+            "blocks": 55,
+            "hours": 177,
+            "days": 27,
+            "active_weeks": 9,
+            "calendar_weeks": 17,
+            "peak_week": 17,
+            "peak_hours": 32.5
+        }
+    ],
+    "weekly": [
+        {
+            "semester": "HS25",
+            "name": "1. Semester",
+            "values": [
+                29.25,
+                26,
+                26,
+                16.25,
+                26,
+                21,
+                26,
+                26,
+                13,
+                26,
+                19.5,
+                22.75,
+                9.75,
+                13,
+                0,
+                0,
+                6.5
+            ]
+        },
+        {
+            "semester": "FS26",
+            "name": "2. Semester",
+            "values": [
+                32.5,
+                0,
+                19.5,
+                6.5,
+                26,
+                9.75,
+                22.75,
+                0,
+                0,
+                9.75,
+                26,
+                26,
+                26,
+                0,
+                16.25,
+                6.5
+            ]
+        },
+        {
+            "semester": "HS26",
+            "name": "3. Semester",
+            "values": [
+                22.75,
+                22.75,
+                26,
+                26,
+                26,
+                32.5,
+                26,
+                26,
+                26,
+                26,
+                19.5,
+                26,
+                22.75,
+                13
+            ]
+        },
+        {
+            "semester": "FS27",
+            "name": "4. Semester",
+            "values": [
+                13,
+                0,
+                21,
+                0,
+                26,
+                0,
+                0,
+                19.5,
+                0,
+                0,
+                13,
+                19.5,
+                0,
+                19.5,
+                0,
+                13,
+                32.5
+            ]
+        }
+    ],
+    "weekdays": [
+        {
+            "semester": "HS25",
+            "name": "1. Semester",
+            "values": [
+                71.5,
+                74.75,
+                87.75,
+                66.5,
+                6.5
+            ]
+        },
+        {
+            "semester": "FS26",
+            "name": "2. Semester",
+            "values": [
+                48.75,
+                65,
+                55.25,
+                52,
+                6.5
+            ]
+        },
+        {
+            "semester": "HS26",
+            "name": "3. Semester",
+            "values": [
+                87.75,
+                81.25,
+                81.25,
+                84.5,
+                6.5
+            ]
+        },
+        {
+            "semester": "FS27",
+            "name": "4. Semester",
+            "values": [
+                26,
+                45.5,
+                53.5,
+                45.5,
+                6.5
+            ]
+        }
+    ],
+    "modes": [
+        {
+            "semester": "HS25",
+            "name": "1. Semester",
+            "values": {
+                "in_person": 303.75,
+                "online": 3.25,
+                "unclear": 0
+            }
+        },
+        {
+            "semester": "FS26",
+            "name": "2. Semester",
+            "values": {
+                "in_person": 191.75,
+                "online": 19.5,
+                "unclear": 16.25
+            }
+        },
+        {
+            "semester": "HS26",
+            "name": "3. Semester",
+            "values": {
+                "in_person": 289.25,
+                "online": 16.25,
+                "unclear": 35.75
+            }
+        },
+        {
+            "semester": "FS27",
+            "name": "4. Semester",
+            "values": {
+                "in_person": 136.5,
+                "online": 1.5,
+                "unclear": 39
+            }
+        }
+    ]
+}
