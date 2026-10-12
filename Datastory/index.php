@@ -33,11 +33,10 @@
 <!-- 1 · Hero (dunkelrot): Kernaussage und Illustration -->
 <header class="hero">
     <div class="shell hero-inner">
-        <h1>
-            Wir heiraten heute
-            <span id="hero-years">–</span> Jahre später.
-        </h1>
-        <!-- Illustration aus Figma als SVG exportieren und unter img/ ablegen -->
+            <h1>
+                Wir heiraten heute durchschnittlich
+                <span id="hero-years">–</span> Jahre später als <span id="hero-from">–</span>.
+            </h1>
         <img class="hero-img" src="img/brautpaar.svg" alt="Illustration eines Brautpaars" width="240" height="440">
     </div>
 </header>
@@ -48,10 +47,7 @@
         <h2 class="story-title">Ehe und Scheidung</h2>
         <div class="story-subtitle">
             <span>in der Schweiz</span>
-            <span>eine Datastory</span>
         </div>
-        <!-- role="status" kündigt Änderungen für Screenreader an -->
-        <p id="status" class="status" role="status">Daten werden geladen …</p>
     </div>
 </section>
 
@@ -60,14 +56,37 @@
     <!-- 3 · Heiraten (dunkelrot): Diagramm links, Text rechts -->
     <section class="chapter chapter-dark">
         <div class="shell chapter-grid">
-            <figure class="chart-card">
-                <div class="chart-box">
-                    <canvas id="marriages-chart" role="img"
-                            aria-label="Liniendiagramm der Heiraten pro Jahr in der Schweiz von 1975 bis 2025."></canvas>
+            <figure class="chart-card slider">
+                <div class="slider-head">
+                    <p class="slider-title">Heiraten pro Jahr</p>
+                    <span class="slider-count">1 / 2</span>
+                </div>
+
+                <div class="slider-body">
+                    <button type="button" class="slider-btn slider-prev" aria-label="Vorherige Grafik">‹</button>
+
+                    <div class="slider-window">
+                        <div class="slider-track">
+                            <div class="slide" data-title="Heiraten pro Jahr">
+                                <div class="chart-box">
+                                    <canvas id="marriages-chart" role="img"
+                                            aria-label="Liniendiagramm der Anzahl Heiraten pro Jahr von 1975 bis 2025."></canvas>
+                                </div>
+                            </div>
+                            <div class="slide" data-title="Heiraten pro 1000 Einwohner">
+                                <div class="chart-box">
+                                    <canvas id="marriages-rate-chart" role="img"
+                                            aria-label="Liniendiagramm der Heiraten pro 1000 Einwohnerinnen und Einwohner von 1975 bis 2025."></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="slider-btn slider-next" aria-label="Nächste Grafik">›</button>
                 </div>
             </figure>
-            <div class="chapter-copy">
-                <h2>heiraten</h2>
+            <div class="chapter-text">
+                <h2>Heiraten</h2>
                 <p>
                     Am meisten Hochzeiten gab es <span id="peak-marriages-year">–</span>:
                     <span id="peak-marriages-value">–</span> Paare sagten Ja.
@@ -87,7 +106,7 @@
                             aria-label="Balkendiagramm des Durchschnittsalters von Männern und Frauen bei der Erstheirat, alle zehn Jahre von 1975 bis 2025."></canvas>
                 </div>
             </figure>
-            <div class="chapter-copy">
+            <div class="chapter-text">
                 <h2>Alter Erstheirat</h2>
                 <p>
                     Männer sind bei der ersten Hochzeit heute <span id="age-change-men">–</span> Jahre älter
@@ -109,7 +128,7 @@
                                 aria-label="Horizontales Balkendiagramm der durchschnittlichen Ehedauer bis zur Scheidung, alle zehn Jahre von 1975 bis 2025."></canvas>
                     </div>
                 </figure>
-                <div class="chapter-copy">
+                <div class="chapter-text">
                     <p>
                         Ehen, die geschieden werden, halten heute länger als früher.
                         Seit 1975 ist die durchschnittliche Dauer bis zur Scheidung um
@@ -134,7 +153,7 @@
     <!-- 7 · Scheidungen (korallrot): Text links, Liniendiagramm rechts -->
     <section class="chapter chapter-coral">
         <div class="shell chapter-grid chapter-grid-reverse">
-            <div class="chapter-copy">
+            <div class="chapter-text">
                 <h2>Scheidungen</h2>
                 <p>
                     Den Höchststand erreichten die Scheidungen <span id="peak-divorces-year">–</span>
@@ -146,10 +165,33 @@
                     scheiden, 2000 dauerten die neuen Verfahren länger.
                 </p>
             </div>
-            <figure class="chart-card">
-                <div class="chart-box">
-                    <canvas id="divorces-chart" role="img"
-                            aria-label="Liniendiagramm der Scheidungen pro Jahr in der Schweiz von 1975 bis 2025."></canvas>
+            <figure class="chart-card slider">
+                <div class="slider-head">
+                    <p class="slider-title">Scheidungen pro Jahr</p>
+                    <span class="slider-count">1 / 2</span>
+                </div>
+
+                <div class="slider-body">
+                    <button type="button" class="slider-btn slider-prev" aria-label="Vorherige Grafik">‹</button>
+
+                    <div class="slider-window">
+                        <div class="slider-track">
+                            <div class="slide" data-title="Scheidungen pro 1000 Einwohner">
+                                <div class="chart-box">
+                                    <canvas id="divorces-rate-chart" role="img"
+                                            aria-label="Liniendiagramm der Scheidungen pro 1000 Einwohnerinnen und Einwohner von 1975 bis 2025."></canvas>
+                                </div>
+                            </div>
+                            <div class="slide" data-title="Scheidungen pro Jahr">
+                                <div class="chart-box">
+                                    <canvas id="divorces-chart" role="img"
+                                            aria-label="Liniendiagramm der Anzahl Scheidungen pro Jahr von 1975 bis 2025."></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="slider-btn slider-next" aria-label="Nächste Grafik">›</button>
                 </div>
             </figure>
         </div>
@@ -184,7 +226,10 @@
 <footer class="footer">
     <div class="shell footer-inner">
         <span>Interaktive Medien 3 · FHGR</span>
+        <!-- role="status" kündigt Änderungen für Screenreader an -->
+        <p id="status" class="status" role="status">Daten werden geladen …</p>
         <span>Daten: BFS</span>
+
     </div>
 </footer>
 
