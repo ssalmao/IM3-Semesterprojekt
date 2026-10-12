@@ -1,316 +1,299 @@
+/* ==========================================================================
+   Ehe und Scheidung · Datastory
+   Farben und Schriften aus dem Figma (Hex-Werte vom Screenshot abgenommen,
+   bei Bedarf mit den exakten Figma-Werten ersetzen).
+   ========================================================================== */
+
 :root {
-  --ink: #0c1b33;
-  --paper: #f7f9f4;
+  /* Figma-Farben */
+  --red-dark: #7e0c14;   /* Hero, Kapitel «heiraten» */
+  --pink-light: #f0dcdd; /* Titel, Diagrammkarten */
+  --rose: #e38e93;       /* Kapitel «Dauer der Ehe» */
+  --coral: #cc5058;      /* Kapitel «Scheidungen», Balken Frauen */
+  --brown: #2a0a06;      /* Balken Männer, Linien */
+  --ink: #111111;        /* Fliesstext auf hellem Grund */
   --white: #ffffff;
-  --lime: #b8f34a;
-  --cyan: #45c8d8;
-  --coral: #ff7058;
-  --blue: #4c68ff;
-  --muted: #667085;
-  --line: rgba(12, 27, 51, 0.16);
-  --radius: 1.25rem;
-  --shell: 72rem;
+
+  /* Schriften */
+  --font-text: "Montserrat", system-ui, sans-serif;
+  --font-title: "Comfortaa", "Montserrat", system-ui, sans-serif;
+
+  /* Layout */
+  --shell: 64rem;
+  --radius: 0.9rem;
+  --gap: clamp(1.5rem, 5vw, 3.5rem);
+  /* Innenabstand oben/unten: richtet sich nach der Fensterhöhe, damit der
+     Inhalt auch auf niedrigen Bildschirmen in einen Screen passt */
+  --section-space: clamp(2.5rem, 8vh, 6rem);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--white);
   color: var(--ink);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-text);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  content: "";
-  background-image:
-    linear-gradient(rgba(12, 27, 51, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(12, 27, 51, 0.035) 1px, transparent 1px);
-  background-size: 2.5rem 2.5rem;
+h1,
+h2,
+p {
+  margin-top: 0;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Begrenzte Inhaltsbreite, zentriert */
 .shell {
   width: min(calc(100% - 2.5rem), var(--shell));
   margin-inline: auto;
 }
 
-.story-head {
+/* Jeder Abschnitt füllt mindestens einen ganzen Screen, Inhalt vertikal
+   zentriert. 100vh ist der Fallback für ältere Browser; 100svh nimmt auf
+   Mobile die kleinste sichtbare Höhe (mit eingeblendeter Adressleiste),
+   damit nichts hinter der Browserleiste verschwindet. min-height statt
+   height: Ist der Inhalt höher als der Screen, wächst der Abschnitt mit,
+   statt abgeschnitten zu werden. */
+.hero,
+.intro,
+.chapter,
+.statement,
+.method {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 18rem;
-  gap: 3rem;
-  align-items: end;
-  padding-block: clamp(3rem, 8vw, 6.5rem) 3rem;
-  border-bottom: 1px solid var(--line);
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
-.eyebrow,
-.chapter-no,
-.head-control label {
-  margin: 0 0 1rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* Zahlen aus der Datenbank gleich breit setzen (kein Springen beim Laden) */
+[id^="hero-"],
+[id^="peak-"],
+[id^="age-"],
+[id^="duration-"],
+[id^="statement-"],
+[id^="audit-"] {
+  font-variant-numeric: tabular-nums;
 }
 
-.eyebrow::before,
-.chapter-no::before {
-  display: inline-block;
-  width: 1.5rem;
-  height: 0.55rem;
-  margin-right: 0.65rem;
-  border-radius: 999px;
-  background: var(--lime);
-  content: "";
+/* --------------------------------------------------------------------------
+   1 · Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  background: var(--red-dark);
+  color: var(--white);
 }
 
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--gap);
+  align-items: center;
+  padding-block: var(--section-space);
 }
 
-h1 {
-  max-width: 13ch;
-  margin-bottom: 1.25rem;
-  font-size: clamp(3.25rem, 9vw, 7rem);
-  font-weight: 850;
-  line-height: 0.88;
-  letter-spacing: -0.065em;
-}
-
-h1 em {
-  color: var(--blue);
-  font-style: normal;
-}
-
-.lead {
-  max-width: 43rem;
+.hero h1 {
+  max-width: 14ch;
   margin: 0;
-  color: #3e4b62;
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  line-height: 1.45;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
 }
 
-.head-control {
-  padding: 1.15rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 1rem 3rem rgba(12, 27, 51, 0.08);
+.hero-img {
+  width: clamp(9rem, 22vw, 15rem);
 }
 
-.head-control label {
-  display: block;
-  margin-bottom: 0.5rem;
+/* --------------------------------------------------------------------------
+   2 · Titel
+   -------------------------------------------------------------------------- */
+
+.intro {
+  padding-block: var(--section-space);
+  background: var(--pink-light);
+  color: var(--red-dark);
+}
+
+.story-title {
+  margin-bottom: 0.75rem;
+  font-family: var(--font-title);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.story-subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  max-width: 34rem;
+  font-family: var(--font-title);
+  font-size: clamp(1rem, 2vw, 1.3rem);
 }
 
 .status {
-  min-height: 1.2rem;
-  margin: 0.65rem 0 0;
-  color: var(--muted);
-  font-size: 0.78rem;
+  margin: 2.5rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
 }
 
-select {
-  width: 100%;
-  min-height: 3rem;
-  padding: 0.65rem 2.5rem 0.65rem 0.75rem;
-  border: 1px solid rgba(12, 27, 51, 0.3);
-  border-radius: 0.6rem;
-  background: var(--white);
-  color: var(--ink);
-  font: inherit;
-  font-weight: 700;
-}
-
-select:focus-visible {
-  outline: 3px solid rgba(76, 104, 255, 0.35);
-  outline-offset: 2px;
-}
-
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-block: 2rem 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--white);
-  overflow: hidden;
-}
-
-.metric {
-  min-height: 10rem;
-  padding: 1.5rem;
-  border-left: 1px solid var(--line);
-}
-
-.metric:first-child {
-  border-left: 0;
-}
-
-.metric strong {
-  display: block;
-  margin-bottom: 0.7rem;
-  color: var(--blue);
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.05em;
-  line-height: 1;
-}
-
-.metric span {
-  display: block;
-  max-width: 16rem;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
+/* --------------------------------------------------------------------------
+   Kapitel: gemeinsame Bausteine
+   -------------------------------------------------------------------------- */
 
 .chapter {
-  display: grid;
-  grid-template-columns: 19rem minmax(0, 1fr);
-  gap: clamp(2rem, 6vw, 5rem);
-  align-items: start;
-  padding-block: clamp(5rem, 10vw, 8rem);
+  padding-block: var(--section-space);
 }
 
-.chapter-copy {
-  position: sticky;
-  top: 2rem;
+/* Diagramm und Text nebeneinander (Diagramm breiter) */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--gap);
+  align-items: center;
+}
+
+/* Text links, Diagramm rechts (Kapitel «Scheidungen») */
+.chapter-grid-reverse {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+/* Diagramm oben, Text darunter (Kapitel «Alter Erstheirat») */
+.chapter-stack {
+  max-width: 44rem;
 }
 
 .chapter-copy h2,
-.method h2 {
+.chapter-title {
   margin-bottom: 1rem;
-  font-size: clamp(2rem, 4vw, 3.3rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.chapter-title {
+  margin-bottom: 2rem;
+}
+
+.chapter-copy p {
+  max-width: 34rem;
 }
 
 .chapter-copy p:last-child {
   margin-bottom: 0;
-  color: var(--muted);
 }
 
+.note {
+  padding-left: 1rem;
+  border-left: 3px solid currentColor;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Diagrammkarte: abgerundete hellrosa Fläche wie im Figma */
 .chart-card {
   min-width: 0;
+  margin: 0;
   padding: clamp(1rem, 2.5vw, 1.5rem);
-  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 1.2rem 3rem rgba(12, 27, 51, 0.08);
+  background: var(--pink-light);
 }
 
-.chart-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: baseline;
-  margin-bottom: 1.25rem;
-}
-
-.chart-head h3 {
-  margin-bottom: 0;
-  font-size: 1rem;
-}
-
-.chart-head p {
-  margin-bottom: 0;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-align: right;
-}
-
+/* Chart.js liest die Höhe aus diesem Container (maintainAspectRatio: false).
+   Die Höhe wächst mit dem Fenster, bleibt aber zwischen 15rem und 26rem. */
 .chart-box {
   position: relative;
   width: 100%;
+  height: clamp(15rem, 50svh, 26rem);
 }
 
-.chart-box-line,
-.chart-box-bar {
-  height: 25rem;
+.chapter-stack .chart-card {
+  margin-bottom: 1.5rem;
 }
+
+/* --------------------------------------------------------------------------
+   Kapitel: Farbvarianten
+   -------------------------------------------------------------------------- */
 
 .chapter-dark {
-  /*
-   * Die Section trägt gleichzeitig die Klassen .chapter und .chapter-dark.
-   * .chapter macht sie zum zweispaltigen Grid. Darin liegt aber bereits das
-   * eigene Grid .chapter-grid als einziges Kind. Ohne diese Überschreibung
-   * landet .chapter-grid in der nur 19rem breiten ersten Spalte; seine zweite
-   * Spalte und damit das Chart.js-Canvas erhalten dann eine Breite von 0px.
-   */
-  display: block;
-  width: 100%;
-  max-width: none;
-  padding: 0;
-  background: var(--ink);
+  background: var(--red-dark);
   color: var(--white);
 }
 
-.chapter-grid {
-  display: grid;
-  grid-template-columns: 19rem minmax(0, 1fr);
-  gap: clamp(2rem, 6vw, 5rem);
-  padding-block: clamp(5rem, 10vw, 8rem);
+.chapter-light {
+  background: var(--white);
 }
 
-.chapter-dark .chapter-copy p:last-child,
-.chapter-dark .chart-head p {
-  color: #aeb8c9;
+.chapter-rose {
+  background: var(--rose);
 }
 
-.chapter-dark .chapter-no::before {
-  background: var(--cyan);
+.chapter-coral {
+  background: var(--coral);
+  color: var(--white);
 }
 
-.chart-card-dark {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: #132745;
-  box-shadow: none;
+/* Im korallroten Kapitel ist die Karte im Figma weiss */
+.chapter-coral .chart-card {
+  background: var(--white);
 }
 
-.chapter-split {
-  grid-template-columns: minmax(0, 1fr) minmax(21rem, 30rem);
-  align-items: center;
+/* --------------------------------------------------------------------------
+   6 · Grosse Aussage
+   -------------------------------------------------------------------------- */
+
+.statement {
+  padding-block: var(--section-space);
 }
 
-.chart-box-donut {
-  height: 23rem;
+.statement p {
+  max-width: 22ch;
+  margin: 0;
+  font-size: clamp(1.9rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
 }
+
+.statement span {
+  color: var(--coral);
+}
+
+/* --------------------------------------------------------------------------
+   8 · Methode und Footer
+   -------------------------------------------------------------------------- */
 
 .method {
-  margin-bottom: 4rem;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  border-radius: var(--radius);
-  background: var(--lime);
+  padding-block: var(--section-space);
+  background: var(--pink-light);
+  color: var(--red-dark);
 }
 
-.method .chapter-no::before {
-  background: var(--ink);
+.method h2 {
+  margin-bottom: 2rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
 }
 
 .method-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: 2rem;
 }
 
 .method-grid p {
   margin: 0;
+  font-size: 0.95rem;
 }
 
 .method-grid strong {
@@ -320,85 +303,59 @@ select:focus-visible {
 }
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
   padding-block: 1.75rem;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  background: var(--red-dark);
+  color: var(--pink-light);
   font-size: 0.8rem;
 }
 
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive: Tablet und Mobile
+   -------------------------------------------------------------------------- */
+
 @media (max-width: 800px) {
-  .story-head,
-  .chapter,
+  /* Alles untereinander; Text kommt nach dem Diagramm */
   .chapter-grid,
-  .chapter-split {
+  .chapter-grid-reverse {
     grid-template-columns: 1fr;
   }
 
-  .story-head {
-    gap: 2rem;
-  }
-
-  .head-control {
-    max-width: 26rem;
-  }
-
-  .chapter-copy {
-    position: static;
-    max-width: 35rem;
-  }
-
-  .metrics {
-    grid-template-columns: 1fr;
-  }
-
-  .metric {
-    min-height: auto;
-    border-top: 1px solid var(--line);
-    border-left: 0;
-  }
-
-  .metric:first-child {
-    border-top: 0;
+  /* Bei «Scheidungen» steht der Text im HTML zuerst: auf Mobile ebenfalls
+     Diagramm zuerst, damit alle Kapitel gleich aufgebaut sind */
+  .chapter-grid-reverse .chart-card {
+    order: -1;
   }
 
   .method-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Diagramm und Text stehen untereinander und teilen sich den Screen */
+  .chart-box {
+    height: clamp(14rem, 40svh, 20rem);
+  }
 }
 
 @media (max-width: 520px) {
   .shell {
-    width: min(calc(100% - 1.5rem), var(--shell));
+    width: calc(100% - 2rem);
   }
 
-  h1 {
-    font-size: clamp(3rem, 18vw, 4.6rem);
+  /* Illustration unter den Titel, kleiner */
+  .hero-inner {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
-  .chart-head {
-    display: block;
-  }
-
-  .chart-head p {
-    margin-top: 0.3rem;
-    text-align: left;
-  }
-
-  .chart-box-line,
-  .chart-box-bar {
-    height: 21rem;
-  }
-
-  .footer {
-    display: grid;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .hero-img {
+    justify-self: end;
+    width: 8rem;
   }
 }
