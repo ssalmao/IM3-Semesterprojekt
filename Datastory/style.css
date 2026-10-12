@@ -5,14 +5,14 @@
    ========================================================================== */
 
 :root {
-  /* Figma-Farben */
+  /* Farben */
   --red-dark: #7e0c14;   /* Hero, Kapitel «heiraten» */
   --pink-light: #f0dcdd; /* Titel, Diagrammkarten */
   --rose: #e38e93;       /* Kapitel «Dauer der Ehe» */
   --coral: #cc5058;      /* Kapitel «Scheidungen», Balken Frauen */
   --brown: #2a0a06;      /* Balken Männer, Linien */
   --ink: #111111;        /* Fliesstext auf hellem Grund */
-  --white: #ffffff;
+  --white: #fffbfb;
 
   /* Schriften */
   --font-text: "Montserrat", system-ui, sans-serif;
@@ -142,12 +142,6 @@ img {
   font-size: clamp(1rem, 2vw, 1.3rem);
 }
 
-.status {
-  margin: 2.5rem 0 0;
-  font-size: 0.8rem;
-  opacity: 0.75;
-}
-
 /* --------------------------------------------------------------------------
    Kapitel: gemeinsame Bausteine
    -------------------------------------------------------------------------- */
@@ -174,7 +168,7 @@ img {
   max-width: 44rem;
 }
 
-.chapter-copy h2,
+.chapter-text h2,
 .chapter-title {
   margin-bottom: 1rem;
   font-size: clamp(2rem, 5vw, 3rem);
@@ -186,11 +180,11 @@ img {
   margin-bottom: 2rem;
 }
 
-.chapter-copy p {
+.chapter-text p {
   max-width: 34rem;
 }
 
-.chapter-copy p:last-child {
+.chapter-text p:last-child {
   margin-bottom: 0;
 }
 
@@ -216,6 +210,83 @@ img {
   position: relative;
   width: 100%;
   height: clamp(15rem, 50svh, 26rem);
+}
+
+/* --------------------------------------------------------------------------
+   Slider im Kapitel «Heiraten»
+   -------------------------------------------------------------------------- */
+
+.slider-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--red-dark);
+}
+
+.slider-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.slider-count {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Drei Spalten: Pfeil | Diagramm | Pfeil */
+.slider-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.slider-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--red-dark);
+  color: var(--white);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.slider-btn:hover {
+  background: var(--coral);
+}
+
+.slider-btn:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
+}
+
+/* Nicht wählbarer Pfeil: leicht ausgegraut */
+.slider-btn:disabled {
+  background: #c9bcbd;
+  color: var(--white);
+  cursor: default;
+}
+
+/* Fenster: alles ausserhalb wird abgeschnitten */
+.slider-window {
+  overflow: hidden;
+}
+
+/* Schiene: Slides nebeneinander, Verschiebung wird animiert */
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+/* Jede Slide ist genau so breit wie das Fenster */
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
 }
 
 .chapter-stack .chart-card {
@@ -343,19 +414,20 @@ img {
   }
 }
 
-@media (max-width: 520px) {
-  .shell {
-    width: calc(100% - 2rem);
-  }
+/* --------------------------------------------------------------------------
+   Einblenden beim Scrollen
+   Die Klasse .reveal setzt reveal.js. Ohne JavaScript bleibt alles sichtbar.
+   -------------------------------------------------------------------------- */
 
-  /* Illustration unter den Titel, kleiner */
-  .hero-inner {
-    grid-template-columns: 1fr;
-    justify-items: start;
-  }
+/* Startzustand: Inhalt unsichtbar und etwas nach unten verschoben */
+.reveal > .shell {
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
 
-  .hero-img {
-    justify-self: end;
-    width: 8rem;
-  }
+/* Abschnitt ist im Bild: Inhalt gleitet an seinen Platz */
+.reveal.is-visible > .shell {
+  opacity: 1;
+  transform: none;
 }
