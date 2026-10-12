@@ -2,7 +2,6 @@ import { initSlider } from './slider.js';
 import { initReveal } from './reveal.js';
 
 initReveal();
-const { data, source } = await loadData();
 
 /* Primäre Datenquelle auf derselben Domain und stabile Ersatzquelle für eine
 lokale Demonstration oder einen vorübergehenden Datenbankausfall. */
