@@ -98,25 +98,28 @@ const COLORS = {
 Chart.defaults.font.family = styles.getPropertyValue('--font-text').trim();
 Chart.defaults.color = COLORS.red;
 
-const lawChange = {
-  year: 2000,
-  label: 'Neue Gesetzgebung',
-  color: COLORS.coral,
+// Erklärungen zu einzelnen Jahren: Jahr → Textzeilen der Infobox
+const divorceNotes = {
+  1999: ['Letztes Jahr nach altem Recht:', 'Viele Paare liessen sich noch', 'vor der Gesetzesänderung scheiden.'],
+  2000: ['Neues Scheidungsrecht ab 1. Januar:', 'Die neuen Verfahren dauerten', 'zuerst länger.'],
+};
+
+const marriageNotes = {
+  2020: ['Corona-Pandemie: Viele Hochzeiten', 'wurden verschoben.'],
+  2022: ['Nachholeffekt: Verschobene', 'Hochzeiten wurden gefeiert.'],
 };
 
 /**
  * Erstellt ein Liniendiagramm über alle Jahre.
  * canvasId: ID des Canvas, values: Datenreihe,
- * unit: Text für Tooltip und y-Achse, color: Linienfarbe
+ * unit: Text für Tooltip und y-Achse, color: Linienfarbe,
+ * notes: optionale Erklärungen { Jahr: ['Zeile 1', 'Zeile 2'] }
  */
-function createLineChart(canvasId, values, unit, color , marker = null, notes = {}) {
-
+function createLineChart({ canvasId, values, unit, color, notes = {} }) {
   const hasNote = (index) => data.years[index] in notes;
 
   return new Chart(document.getElementById(canvasId), {
     type: 'line',
-    plugins: marker ? [yearMarker] : [],
-
     data: {
       labels: data.years,
       datasets: [{
@@ -124,9 +127,13 @@ function createLineChart(canvasId, values, unit, color , marker = null, notes = 
         data: values,
         borderColor: color,
         borderWidth: 3,
-        pointRadius: 0,
-        pointHoverRadius: 5,
         tension: 0.3,
+        /* Nur Jahre mit Erklärung bekommen einen sichtbaren Punkt */
+        pointRadius: (context) => (hasNote(context.dataIndex) ? 6 : 0),
+        pointHoverRadius: (context) => (hasNote(context.dataIndex) ? 9 : 5),
+        pointBackgroundColor: (context) => (hasNote(context.dataIndex) ? COLORS.coral : color),
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2,
       }],
     },
 
@@ -136,12 +143,23 @@ function createLineChart(canvasId, values, unit, color , marker = null, notes = 
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
+        // Tooltip als kleine Infobox
         tooltip: {
+          backgroundColor: '#ffffff',
+          titleColor: COLORS.red,
+          bodyColor: COLORS.brown,
+          footerColor: COLORS.brown,
+          footerFont: { weight: 'normal' },
+          borderColor: COLORS.coral,
+          borderWidth: 1,
+          cornerRadius: 8,
+          padding: 12,
+          displayColors: false,
           callbacks: {
             label: (item) => `${number.format(item.raw)} ${unit}`,
+            footer: (items) => notes[data.years[items[0].dataIndex]] ?? [],
           },
         },
-        yearMarker: marker,
       },
 
       scales: {
@@ -153,7 +171,6 @@ function createLineChart(canvasId, values, unit, color , marker = null, notes = 
             callback: (value, index) => (data.years[index] % 10 === 5 ? data.years[index] : ''),
           },
         },
-
         y: {
           beginAtZero: true,
           ticks: { callback: (value) => number.format(value) },
@@ -162,6 +179,51 @@ function createLineChart(canvasId, values, unit, color , marker = null, notes = 
     },
   });
 }
+
+/** Liniendiagramm: Heiraten pro 1000 Einwohner (Kapitel «Heiraten», Slide 1) */
+function createMarriagesRateChart() {
+  return createLineChart({
+    canvasId: 'marriages-rate-chart',
+    values: data.marriages.per_1000,
+    unit: 'Heiraten pro 1000 Einwohner',
+    color: COLORS.red,
+    notes: marriageNotes,
+  });
+}
+
+/** Liniendiagramm: Anzahl Heiraten pro Jahr (Kapitel «Heiraten», Slide 1) */
+function createMarriagesChart() {
+  return createLineChart({
+    canvasId: 'marriages-chart',
+    values: data.marriages.total,
+    unit: 'Heiraten',
+    color: COLORS.red,
+    notes: marriageNotes,
+  });
+}
+
+/** Liniendiagramm: Scheidungen pro 1000 Einwohner (Kapitel «Scheidungen», Slide 2) */
+function createDivorcesRateChart() {
+  return createLineChart({
+    canvasId: 'divorces-rate-chart',
+    values: data.divorces.per_1000,
+    unit: 'Scheidungen pro 1000 Einwohner',
+    color: COLORS.red,
+    notes: divorceNotes,
+  });
+}
+
+/** Liniendiagramm: Anzahl Scheidungen pro Jahr (Kapitel «Scheidungen», Slide 2) */
+function createDivorcesChart() {
+  return createLineChart({
+    canvasId: 'divorces-chart',
+    values: data.divorces.total,
+    unit: 'Scheidungen',
+    color: COLORS.red,
+    notes: divorceNotes,
+  });
+}
+
 
 //* Gruppiertes Balkendiagramm: Alter bei der Erstheirat, Männer und Frauen alle zehn Jahre.
 function createAgeChart() {
@@ -253,56 +315,15 @@ function createDurationChart() {
   });
 }
 
-/**
- * Chart.js-Plugin: zeichnet eine gestrichelte senkrechte Linie mit
- * Beschriftung bei einem bestimmten Jahr.
- * Einstellungen kommen aus options.plugins.yearMarker: { year, label, color }
- */
-const yearMarker = {
-  id: 'yearMarker',
-
-  afterDatasetsDraw(chart, args, options) {
-    const index = data.years.indexOf(options.year);
-
-    // Jahr nicht in den Daten (z. B. anderer Zeitraum): nichts zeichnen
-    if (index === -1) {
-      return;
-    }
-
-    const { ctx, chartArea, scales } = chart;
-    const x = scales.x.getPixelForValue(index);
-
-    ctx.save();
-
-    // Gestrichelte Linie von oben nach unten
-    ctx.strokeStyle = options.color;
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(x, chartArea.top);
-    ctx.lineTo(x, chartArea.bottom);
-    ctx.stroke();
-
-    // Beschriftung links neben der Linie
-    ctx.setLineDash([]);
-    ctx.fillStyle = options.color;
-    ctx.font = `600 12px ${Chart.defaults.font.family}`;
-    ctx.textAlign = 'right';
-    ctx.fillText(options.label, x - 6, chartArea.top + 14);
-
-    ctx.restore();
-  },
-};
-
 renderNumbers();
-
 await document.fonts.ready;
 
-createLineChart('marriages-rate-chart', data.marriages.per_1000, 'Heiraten pro 1000 Einwohner', COLORS.red);
-createLineChart('marriages-chart', data.marriages.total, 'Heiraten', COLORS.red);
+/* Grafiken / Diagramme werden erstellt */
+createMarriagesChart();
+createMarriagesRateChart();
 createAgeChart();
 createDurationChart();
-createLineChart('divorces-chart', data.divorces.total, 'Scheidungen', COLORS.red, lawChange);
-createLineChart('divorces-rate-chart', data.divorces.per_1000, 'Scheidungen pro 1000 Einwohner', COLORS.red, lawChange);
+createDivorcesChart();
+createDivorcesRateChart();
 
 document.querySelectorAll('.slider').forEach(initSlider);

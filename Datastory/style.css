@@ -52,6 +52,24 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Seiten-Gefühl: Beim Scrollen rastet die Ansicht am Anfang jedes Abschnitts ein */
+html {
+  scroll-snap-type: y mandatory;
+}
+
+.hero,
+.intro,
+.chapter,
+.statement,
+.method {
+  scroll-snap-align: start;
+}
+
+/* Der Footer rastet am unteren Rand ein, damit man ihn erreicht */
+.footer {
+  scroll-snap-align: end;
+}
+
 .chapter-title {
   font-family: var(--font-title);
   font-size: 5rem;
@@ -457,18 +475,37 @@ body {
 
 /* --------------------------------------------------------------------------
    Einblenden beim Scrollen
-   Die Klasse .reveal setzt reveal.js. Ohne JavaScript bleibt alles sichtbar.
+   Die Klasse .reveal setzt reveal.js, .is-visible kommt dazu, sobald der
+   Abschnitt im Bild ist. Ohne JavaScript bleibt alles sichtbar.
    -------------------------------------------------------------------------- */
 
-/* Startzustand: Inhalt unsichtbar und etwas nach unten verschoben */
-.reveal > .shell {
+/* Startzustand: jedes Element im Inhaltsbereich unsichtbar und etwas tiefer */
+.reveal > .shell > * {
   opacity: 0;
-  transform: translateY(2.5rem);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  translate: 0 2.5rem;
+  transition: opacity 0.8s ease, translate 0.8s ease;
 }
 
-/* Abschnitt ist im Bild: Inhalt gleitet an seinen Platz */
-.reveal.is-visible > .shell {
+/* Abschnitt im Bild: Elemente gleiten an ihren Platz */
+.reveal.is-visible > .shell > * {
   opacity: 1;
-  transform: none;
+  translate: none;
+}
+
+/* Gestaffelt: das zweite und dritte Element starten etwas später */
+.reveal.is-visible > .shell > :nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.reveal.is-visible > .shell > :nth-child(3) {
+  transition-delay: 0.4s;
+}
+
+/* Wer im System «Bewegung reduzieren» eingestellt hat, sieht alles sofort */
+@media (prefers-reduced-motion: reduce) {
+  .reveal > .shell > * {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
 }
