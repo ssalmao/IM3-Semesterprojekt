@@ -14,15 +14,7 @@
     <title>Ehe und Scheidung in der Schweiz · Datastory</title>
     <meta name="description"
           content="Heiraten wir später und halten Ehen länger? Eine Datastory mit BFS-Daten von 1975 bis 2025.">
-
-    <!-- Schriften aus dem Figma: Montserrat für Text, Comfortaa für den Titel -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Montserrat:wght@400;600;800&display=swap">
-
-    <link rel="stylesheet" href="style.css">
-
+    
     <!-- Chart.js zuerst, weil script.js direkt auf das Objekt Chart zugreift -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <script src="script.js" type="module"></script>
@@ -96,9 +88,16 @@
             </div>
         </div>
     </section>
+    <!-- 3.5 · Heiraten - Zusatzinfos -->
+    <section class="chapter chapter-dark">
+        <div class="shell chapter-grid">
+            <h1>Mehr Menschen aber nicht mehr Hochzeiten: pro 1000 Menschen wird heute fast 1 Drittel weniger geheiratet als 1975.</h1>
+            <img class="hero-img" src="img/characters/svg/married_couple.svg" alt="Illustration eines verheiraten Paars" width="240" height="440">
+        </div>
+    </section>
 
     <!-- 4 · Alter bei der Erstheirat (weiss): gruppierte Balken Männer/Frauen -->
-    <section class="chapter chapter-light">
+    <section class="chapter chapter-rose">
         <div class="shell chapter-stack">
             <figure class="chart-card">
                 <div class="chart-box">
@@ -117,8 +116,19 @@
         </div>
     </section>
 
-    <!-- 5 · Ehedauer bis zur Scheidung (rosa): horizontale Balken -->
+    <!-- 4.5 · Alter Erstheirat - Zusatzinfos -->
     <section class="chapter chapter-rose">
+        <div class="shell chapter-grid">
+            <h1>Früher musste ein Partner vor Gericht ein schweres Verschulden des anderen nachweisen (z. B. Ehebruch oder schwere Pflichtverletzung).
+                <br>
+                <br>
+            Seit dem Jahr 2000 gilt das Zerrüttungsprinzip: Eine Ehe kann vor im gegenseitigen Einvernehmen oder nach einer zweijährigen Trennungsfrist geschieden werden, ohne dass eine Schuldfrage geklärt werden muss.</h1>
+            <img class="hero-img" src="img/characters/svg/arguing_couple.svg" alt="Illustration eines verheiraten Paars" width="240" height="440">
+        </div>
+    </section>
+
+    <!-- 5 · Ehedauer bis zur Scheidung (rosa): horizontale Balken -->
+    <section class="chapter chapter-light">
         <div class="shell">
             <h2 class="chapter-title">Dauer der Ehe bis zur Scheidung</h2>
             <div class="chapter-grid">
@@ -140,7 +150,7 @@
         </div>
     </section>
 
-    <!-- 6 · Grosse Aussage (weiss) -->
+    <!-- 5.5 · Grosse Aussage (weiss) -->
     <section class="statement">
         <div class="shell">
             <p>
