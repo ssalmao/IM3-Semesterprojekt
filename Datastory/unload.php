@@ -83,7 +83,7 @@ function buildStoryContract(array $rows, array $audit): array
     return [
         'meta' => [
             'question' => 'Heiraten wir später und halten Ehen länger?',
-            'source' => 'BFS',
+            'source' => 'Bundesamt für Statistik (BFS), STAT-TAB: px-x-0102020202_110 (Heiraten), px-x-0102020203_110 (Scheidungen)',
             'years' => [
                 'from' => $years[0] ?? null,
                 'to' => $years[array_key_last($years)] ?? null,

@@ -33,6 +33,7 @@ $rawRows = $extracted['data'];
 
 // Kontrollzahlen für etl_audit
 $audit = [
+    'source_api'             => $extracted['from_api'] ? 1 : 0, // 1 = live vom BFS, 0 = lokale CSV
     'source_rows'            => count($rawRows) + $extracted['skipped_rows'],
     'skipped_rows'           => $extracted['skipped_rows'],
     'invalid_rows'           => 0,
