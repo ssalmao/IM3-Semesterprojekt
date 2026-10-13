@@ -32,7 +32,7 @@
                 Wir heiraten heute durchschnittlich
                 <span id="hero-years">–</span> Jahre später als <span id="hero-from">–</span>.
             </h1>
-        <img class="hero-img" src="img/brautpaar.svg" alt="Illustration eines Brautpaars" width="240" height="440">
+        <img class="hero-img character" src="img/characters/svg/loving_couple.svg" alt="Illustration eines Brautpaars">
     </div>
 </header>
 
@@ -44,7 +44,7 @@
             <h2 class="story-title">Ehe und Scheidung</h2>
             <span>in der Schweiz</span>
         </div>
-        <img class="character" src="img/characters/svg/enamoured_lisa.svg" alt="Illustration von Frau - Lias">
+        <img class="character lisa" src="img/characters/svg/enamoured_lisa.svg" alt="Illustration von Frau - Lias">
     </div>
 </section>
 
@@ -53,51 +53,70 @@
     <!-- 3 · Heiraten (dunkelrot): Diagramm links, Text rechts -->
     <section class="chapter chapter-dark">
         <div class="shell chapter-grid">
-            <figure class="chart-card slider">
-                <div class="slider-head">
-                    <p class="slider-title">Heiraten pro Jahr</p>
-                    <span class="slider-count">1 / 2</span>
-                </div>
+            <div class="chapter-visual">
+                <h2 class="chapter-title">Heiraten</h2>
+                <figure class="chart-card slider">
+                    <div class="slider-head">
+                        <p class="slider-title">Heiraten pro Jahr</p>
+                        <span class="slider-count">1 / 2</span>
+                    </div>
 
-                <div class="slider-body">
-                    <button type="button" class="slider-btn slider-prev" aria-label="Vorherige Grafik">‹</button>
+                    <div class="slider-body">
+                        <button type="button" class="slider-btn slider-prev" aria-label="Vorherige Grafik">‹</button>
 
-                    <div class="slider-window">
-                        <div class="slider-track">
-                            <div class="slide" data-title="Heiraten pro Jahr">
-                                <div class="chart-box">
-                                    <canvas id="marriages-chart" role="img"
-                                            aria-label="Liniendiagramm der Anzahl Heiraten pro Jahr von 1975 bis 2025."></canvas>
+                        <div class="slider-window">
+                            <div class="slider-track">
+                                <div class="slide" data-title="Heiraten pro 1000 Einwohner">
+                                    <div class="chart-box">
+                                        <canvas id="marriages-rate-chart" role="img"
+                                                aria-label="Liniendiagramm der Heiraten pro 1000 Einwohnerinnen und Einwohner von 1975 bis 2025."></canvas>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="slide" data-title="Heiraten pro 1000 Einwohner">
-                                <div class="chart-box">
-                                    <canvas id="marriages-rate-chart" role="img"
-                                            aria-label="Liniendiagramm der Heiraten pro 1000 Einwohnerinnen und Einwohner von 1975 bis 2025."></canvas>
+                                <div class="slide" data-title="Heiraten pro Jahr">
+                                    <div class="chart-box">
+                                        <canvas id="marriages-chart" role="img"
+                                                aria-label="Liniendiagramm der Anzahl Heiraten pro Jahr von 1975 bis 2025."></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button type="button" class="slider-btn slider-next" aria-label="Nächste Grafik">›</button>
-                </div>
-            </figure>
-            <div class="chapter-text">
-                <h2>Heiraten</h2>
-                <p>
-                    Am meisten Hochzeiten gab es <span id="peak-marriages-year">–</span>:
-                    <span id="peak-marriages-value">–</span> Paare sagten Ja.
-                    Seither ist die Zahl gesunken, obwohl die Bevölkerung gewachsen ist.
-                    Pro 1000 Einwohnerinnen und Einwohner wird heute deutlich seltener geheiratet.
-                </p>
+                        <button type="button" class="slider-btn slider-next" aria-label="Nächste Grafik">›</button>
+                    </div>
+                </figure>
             </div>
+            <!-- Rechte Spalte: Frage und drei Gründe -->
+            <div class="chapter-text">
+                <h3>Warum wird immer weniger geheiratet?</h3>
+                <ul class="reasons">
+                    <li>
+                            <strong>Veränderte Werte und Lebensmodelle:</strong>
+                            Die traditionelle Ehe wird immer weniger als zwingende Voraussetzung für das
+                            Zusammenleben oder für Kinder gesehen. Viele Paare bevorzugen maximale persönliche
+                            Freiheit, ohne sich in ihrer Beziehungsdefinition festlegen zu lassen.
+
+                    </li>
+                        <li>
+                            <strong>Heiratsstrafe:</strong>
+                            Das Schweizer Steuer- und Vorsorgesystem benachteiligt verheiratete Doppelverdiener
+                            oft gegenüber unverheirateten Paaren. Das schmälert den finanziellen Anreiz zum Heiraten.
+                        </li>
+                        <li>
+                            <strong>Alternativen zur Ehe:</strong>
+                            Das Zusammenleben im Konkubinat ist sozial voll akzeptiert und rechtlich sowie
+                            praktisch für viele Paare unkomplizierter geworden.
+                        </li>
+                    </ul>
+                </div>
         </div>
     </section>
+
+
     <!-- 3.5 · Heiraten - Zusatzinfos -->
     <section class="chapter chapter-dark">
         <div class="shell chapter-grid">
             <h1>Mehr Menschen aber nicht mehr Hochzeiten: pro 1000 Menschen wird heute fast 1 Drittel weniger geheiratet als 1975.</h1>
-            <img class="hero-img" src="img/characters/svg/married_couple.svg" alt="Illustration eines verheiraten Paars" width="240" height="440">
+            <img class="character" src="img/characters/svg/married_couple.svg" alt="Illustration eines verheiraten Paars" width="240" height="440">
         </div>
     </section>
 
@@ -111,7 +130,7 @@
                 </div>
             </figure>
             <div class="chapter-text">
-                <h2>Alter Erstheirat</h2>
+                <h2 class="chapter-title">Alter Erstheirat</h2>
                 <p>
                     Männer sind bei der ersten Hochzeit heute <span id="age-change-men">–</span> Jahre älter
                     als 1975, Frauen sogar <span id="age-change-women">–</span> Jahre.
@@ -121,19 +140,8 @@
         </div>
     </section>
 
-    <!-- 4.5 · Alter Erstheirat - Zusatzinfos -->
-    <section class="chapter chapter-rose">
-        <div class="shell chapter-grid">
-            <h1>Früher musste ein Partner vor Gericht ein schweres Verschulden des anderen nachweisen (z. B. Ehebruch oder schwere Pflichtverletzung).
-                <br>
-                <br>
-            Seit dem Jahr 2000 gilt das Zerrüttungsprinzip: Eine Ehe kann vor im gegenseitigen Einvernehmen oder nach einer zweijährigen Trennungsfrist geschieden werden, ohne dass eine Schuldfrage geklärt werden muss.</h1>
-            <img class="hero-img" src="img/characters/svg/arguing_couple.svg" alt="Illustration eines verheiraten Paars" width="240" height="440">
-        </div>
-    </section>
-
     <!-- 5 · Ehedauer bis zur Scheidung (rosa): horizontale Balken -->
-    <section class="chapter chapter-light">
+    <section class="chapter chapter-dark">
         <div class="shell">
             <h2 class="chapter-title">Dauer der Ehe bis zur Scheidung</h2>
             <div class="chapter-grid">
@@ -169,7 +177,7 @@
     <section class="chapter chapter-coral">
         <div class="shell chapter-grid chapter-grid-reverse">
             <div class="chapter-text">
-                <h2>Scheidungen</h2>
+                <h2 class="chapter-title">Scheidungen</h2>
                 <p>
                     Den Höchststand erreichten die Scheidungen <span id="peak-divorces-year">–</span>
                     mit <span id="peak-divorces-value">–</span> Fällen. Seither gehen sie leicht zurück.
@@ -209,6 +217,17 @@
                     <button type="button" class="slider-btn slider-next" aria-label="Nächste Grafik">›</button>
                 </div>
             </figure>
+        </div>
+    </section>
+
+    <!-- 7.5 · Alter Erstheirat - Zusatzinfos -->
+    <section class="chapter chapter-rose">
+        <div class="shell chapter-grid">
+            <h1>Früher musste ein Partner vor Gericht ein schweres Verschulden des anderen nachweisen (z. B. Ehebruch oder schwere Pflichtverletzung).
+                <br>
+                <br>
+                Seit dem Jahr 2000 gilt das Zerrüttungsprinzip: Eine Ehe kann vor im gegenseitigen Einvernehmen oder nach einer zweijährigen Trennungsfrist geschieden werden, ohne dass eine Schuldfrage geklärt werden muss.</h1>
+            <img class="character" src="img/characters/svg/arguing_couple.svg" alt="Illustration eines verheiraten Paars">
         </div>
     </section>
 

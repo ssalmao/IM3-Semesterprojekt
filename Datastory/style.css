@@ -1,14 +1,9 @@
-/* ==========================================================================
-   Ehe und Scheidung · Datastory
-   Farben und Schriften aus dem Figma (Hex-Werte vom Screenshot abgenommen,
-   bei Bedarf mit den exakten Figma-Werten ersetzen).
-   ========================================================================== */
 /* Fonts */
 @font-face {
   font-family: 'MonteCarlo';
   src: url('fonts/MonteCarlo-Regular.woff') format('woff');
-  font-weight: 400;
   font-style: normal;
+  font-weight: 300;
   font-display: swap;
 }
 @font-face {
@@ -32,7 +27,7 @@
 
   /* Schriften */
   --font-text: "Montserrat", sans-serif;
-  --font-title: "MonteCarlo", cursive;
+  --font-title: "MonteCarlo", sans-serif;
 
   /* Layout */
   --shell: 64rem;
@@ -56,18 +51,12 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
-h2 {
+
+.chapter-title {
   font-family: var(--font-title);
   font-size: 5rem;
-}
-
-h1,p {
-  margin-top: 0;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
+  font-weight: 400;
+  margin: 1rem 0;
 }
 
 /* Begrenzte Inhaltsbreite, zentriert */
@@ -93,15 +82,6 @@ img {
   min-height: 100svh;
 }
 
-/* Zahlen aus der Datenbank gleich breit setzen (kein Springen beim Laden) */
-[id^="hero-"],
-[id^="peak-"],
-[id^="age-"],
-[id^="duration-"],
-[id^="statement-"],
-[id^="audit-"] {
-  font-variant-numeric: tabular-nums;
-}
 
 /* --------------------------------------------------------------------------
    1 · Hero
@@ -126,10 +106,6 @@ img {
   font-size: clamp(2.25rem, 6vw, 4rem);
   font-weight: 800;
   line-height: 1.1;
-}
-
-.hero-img {
-  width: clamp(9rem, 22vw, 15rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -185,9 +161,11 @@ img {
 }
 
 /* Rechte Figur an den rechten Rand */
-.character:last-child {
+.lisa {
   justify-self: end;
   object-position: right bottom;
+  transform: scale(0.75);
+  transform-origin: right bottom;
 }
 
 /* --------------------------------------------------------------------------
@@ -196,6 +174,33 @@ img {
 
 .chapter {
   padding-block: var(--section-space);
+}
+
+/* Titel über dem Diagramm */
+.chapter-visual {
+  margin: 0 0 1rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Frage über der Liste: fette Montserrat */
+.chapter-text h3 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  line-height: 1.2;
+}
+
+/* Liste der Gründe */
+.reasons {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 34rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.reasons strong {
+  font-weight: 700;
 }
 
 /* Diagramm und Text nebeneinander (Diagramm breiter) */
@@ -214,17 +219,6 @@ img {
 /* Diagramm oben, Text darunter (Kapitel «Alter Erstheirat») */
 .chapter-stack {
   max-width: 44rem;
-}
-
-.chapter-text h2,
-.chapter-title {
-  margin-bottom: 1rem;
-  font-weight: 800;
-  line-height: 1.1;
-}
-
-.chapter-title {
-  margin-bottom: 2rem;
 }
 
 .chapter-text p {

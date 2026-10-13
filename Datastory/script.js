@@ -63,9 +63,6 @@ function renderNumbers() {
   setText('hero-years', Math.round(ageChange));
   setText('hero-from', data.years[0]);
 
-  // Kapitel heiraten
-  setText('peak-marriages-year', summary.peak_marriages.year);
-  setText('peak-marriages-value', number.format(summary.peak_marriages.value));
 
   // Kapitel Alter Erstheirat
   setText('age-change-men', number.format(summary.age_change_men));
@@ -95,19 +92,31 @@ const COLORS = {
   red: styles.getPropertyValue('--red-dark').trim(),
   coral: styles.getPropertyValue('--coral').trim(),
   brown: styles.getPropertyValue('--brown').trim(),
+  rose: styles.getPropertyValue('--rose').trim(),
 };
 
 Chart.defaults.font.family = styles.getPropertyValue('--font-text').trim();
-Chart.defaults.color = COLORS.brown;
+Chart.defaults.color = COLORS.red;
+
+const lawChange = {
+  year: 2000,
+  label: 'Neue Gesetzgebung',
+  color: COLORS.coral,
+};
 
 /**
  * Erstellt ein Liniendiagramm über alle Jahre.
  * canvasId: ID des Canvas, values: Datenreihe,
  * unit: Text für Tooltip und y-Achse, color: Linienfarbe
  */
-function createLineChart(canvasId, values, unit, color) {
+function createLineChart(canvasId, values, unit, color , marker = null, notes = {}) {
+
+  const hasNote = (index) => data.years[index] in notes;
+
   return new Chart(document.getElementById(canvasId), {
     type: 'line',
+    plugins: marker ? [yearMarker] : [],
+
     data: {
       labels: data.years,
       datasets: [{
@@ -120,6 +129,7 @@ function createLineChart(canvasId, values, unit, color) {
         tension: 0.3,
       }],
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -131,7 +141,9 @@ function createLineChart(canvasId, values, unit, color) {
             label: (item) => `${number.format(item.raw)} ${unit}`,
           },
         },
+        yearMarker: marker,
       },
+
       scales: {
         x: {
           grid: { display: false },
@@ -141,9 +153,9 @@ function createLineChart(canvasId, values, unit, color) {
             callback: (value, index) => (data.years[index] % 10 === 5 ? data.years[index] : ''),
           },
         },
+
         y: {
           beginAtZero: true,
-          title: { display: true, text: unit },
           ticks: { callback: (value) => number.format(value) },
         },
       },
@@ -168,6 +180,7 @@ function createAgeChart() {
           label: data.meta.series_labels.women,
           data: everyTenYears(data.age.women),
           backgroundColor: COLORS.coral,
+          hoverBackgroundColor: COLORS.rose,
           borderRadius: 4,
         },
       ],
@@ -281,14 +294,10 @@ const yearMarker = {
   },
 };
 
-const lawChange = {
-  year: 2000,
-  label: 'Neues Scheidungsrecht',
-  color: COLORS.coral,
-};
-
 renderNumbers();
+
 await document.fonts.ready;
+
 createLineChart('marriages-rate-chart', data.marriages.per_1000, 'Heiraten pro 1000 Einwohner', COLORS.red);
 createLineChart('marriages-chart', data.marriages.total, 'Heiraten', COLORS.red);
 createAgeChart();
