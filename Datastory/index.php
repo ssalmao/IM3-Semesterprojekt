@@ -36,7 +36,7 @@
 <!-- 2 · Titel (hellrosa) -->
 <section class="intro">
     <div class="shell">
-        <h2 class="story-title">Ehe und Scheidung</h2>
+        <h1 class="story-title">Ehe und Scheidung</h1>
         <div class="story-subtitle">
             <span>in der Schweiz</span>
         </div>
