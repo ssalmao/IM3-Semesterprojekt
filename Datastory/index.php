@@ -14,7 +14,10 @@
     <title>Ehe und Scheidung in der Schweiz · Datastory</title>
     <meta name="description"
           content="Heiraten wir später und halten Ehen länger? Eine Datastory mit BFS-Daten von 1975 bis 2025.">
-    
+
+    <!-- Einbindung vom CSS Style Sheet einbinden -->
+    <link rel="stylesheet" href="style.css">
+
     <!-- Chart.js zuerst, weil script.js direkt auf das Objekt Chart zugreift -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
     <script src="script.js" type="module"></script>
@@ -35,11 +38,13 @@
 
 <!-- 2 · Titel (hellrosa) -->
 <section class="intro">
-    <div class="shell">
-        <h1 class="story-title">Ehe und Scheidung</h1>
-        <div class="story-subtitle">
+    <div class="shell intro-grid">
+        <img class="character" src="img/characters/svg/enamoured_stephan.svg" alt="Illustration von Mann - Stephan">
+        <div class="intro-text">
+            <h2 class="story-title">Ehe und Scheidung</h2>
             <span>in der Schweiz</span>
         </div>
+        <img class="character" src="img/characters/svg/enamoured_lisa.svg" alt="Illustration von Frau - Lias">
     </div>
 </section>
 

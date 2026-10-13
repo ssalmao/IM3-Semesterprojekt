@@ -31,8 +31,8 @@
   --white: #fffbfb;
 
   /* Schriften */
-  --font-text: "Montserrat", system-ui, sans-serif;
-  --font-title: "MonteCarlo", "MonteCarlo", system-ui, cursive;
+  --font-text: "Montserrat", sans-serif;
+  --font-title: "MonteCarlo", cursive;
 
   /* Layout */
   --shell: 64rem;
@@ -61,9 +61,7 @@ h2 {
   font-size: 5rem;
 }
 
-h1,
-
-p {
+h1,p {
   margin-top: 0;
 }
 
@@ -148,18 +146,48 @@ img {
   margin-bottom: 0.75rem;
   font-family: var(--font-title);
   font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 700;
   line-height: 1.1;
 }
 
-.story-subtitle {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
-  max-width: 34rem;
-  font-family: var(--font-title);
+/* Figuren stehen unten auf der Kante: kein Abstand nach unten,
+   Inhalt füllt die ganze Höhe des Abschnitts */
+.intro {
+  align-items: stretch;
+  padding-bottom: 0;
+}
+
+/* Drei Spalten: Figur | Titel | Figur */
+.intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: var(--gap);
+  width: 100%;
+  max-width: none;
+}
+
+.intro-text {
+  align-self: center;
+}
+
+.intro-text span {
   font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+/* Figuren: drei Viertel der Bildschirmhöhe */
+.character {
+  display: block;
+  height: 90svh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+/* Rechte Figur an den rechten Rand */
+.character:last-child {
+  justify-self: end;
+  object-position: right bottom;
 }
 
 /* --------------------------------------------------------------------------
