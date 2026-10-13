@@ -3,8 +3,24 @@
    Farben und Schriften aus dem Figma (Hex-Werte vom Screenshot abgenommen,
    bei Bedarf mit den exakten Figma-Werten ersetzen).
    ========================================================================== */
+/* Fonts */
+@font-face {
+  font-family: 'MonteCarlo';
+  src: url('fonts/MonteCarlo-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('fonts/Montserrat-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
+
   /* Farben */
   --red-dark: #7e0c14;   /* Hero, Kapitel «heiraten» */
   --pink-light: #f0dcdd; /* Titel, Diagrammkarten */
@@ -16,7 +32,7 @@
 
   /* Schriften */
   --font-text: "Montserrat", system-ui, sans-serif;
-  --font-title: "Comfortaa", "Montserrat", system-ui, sans-serif;
+  --font-title: "MonteCarlo", "MonteCarlo", system-ui, cursive;
 
   /* Layout */
   --shell: 64rem;
@@ -40,9 +56,13 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
+h2 {
+  font-family: var(--font-title);
+  font-size: 5rem;
+}
 
 h1,
-h2,
+
 p {
   margin-top: 0;
 }
@@ -171,7 +191,6 @@ img {
 .chapter-text h2,
 .chapter-title {
   margin-bottom: 1rem;
-  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
   line-height: 1.1;
 }
