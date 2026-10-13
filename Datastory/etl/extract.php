@@ -11,28 +11,28 @@
 
 declare(strict_types=1);
 
-// Ab diesem Jahr werden Daten übernommen
+// Daten ab 1975
 const START_YEAR = 1975;
 
-// Lokale Kopie, gleichzeitig Rückfallebene
+// Lokale Kopie
 const LOCAL_CSV = __DIR__ . '/../data/raw/ehen-scheidungen.csv';
 
-// BFS-Tabellen: Indikator-Code beim BFS => eigener Spaltenname
+// Eigene Spaltennamen
 const SOURCES = [
     'px-x-0102020202_110' => [            // Heiraten und Heiratshäufigkeit
         '0'  => 'marriages_total',
         '31' => 'marriages_per_1000',
-        '32' => 'avg_age_m',              // Durchschnittsalter Mann bei Erstheirat
-        '33' => 'avg_age_f',              // Durchschnittsalter Frau bei Erstheirat
+        '32' => 'avg_age_m',
+        '33' => 'avg_age_f',
     ],
     'px-x-0102020203_110' => [            // Scheidungen und Scheidungshäufigkeit
         '0'  => 'divorces_total',
-        '21' => 'avg_duration',           // Ehedauer bei der Scheidung
+        '21' => 'avg_duration',
         '22' => 'divorces_per_1000',
     ],
 ];
 
-// Reihenfolge der Spalten im Ergebnis
+// Reihenfolge der Spalten
 const COLUMNS = [
     'year',
     'marriages_total',
@@ -44,14 +44,11 @@ const COLUMNS = [
     'avg_duration',
 ];
 
-/**
- * Fragt eine BFS-Tabelle ab und liefert [Jahr => [Spalte => Wert]].
- */
 function fetchBfsTable(string $table, array $codes): array
 {
     $url = "https://www.pxweb.bfs.admin.ch/api/v1/de/{$table}/{$table}.px";
 
-    // Abfrage: nur die benötigten Indikatoren, alle Jahre, Antwort als JSON
+    // Abfrage: benötigten Indikatoren, alle Jahre, Antwort als JSON
     $query = json_encode([
         'query' => [[
             'code' => 'Demografisches Merkmal und Indikator',
@@ -79,7 +76,7 @@ function fetchBfsTable(string $table, array $codes): array
 
     $response = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
 
-    // Antwort umformen: key = [Jahr, Code], values = [Wert]
+    // Antwort umformen
     $byYear = [];
 
     foreach ($response['data'] ?? [] as $entry) {
@@ -90,9 +87,8 @@ function fetchBfsTable(string $table, array $codes): array
     return $byYear;
 }
 
-/**
- * Liest die lokale CSV (Rückfallebene) und liefert die Zeilen.
- */
+    // Liest die lokale CSV
+
 function readLocalCsv(string $path): array
 {
     $handle = fopen($path, 'rb');
@@ -101,7 +97,7 @@ function readLocalCsv(string $path): array
         throw new RuntimeException("Datei nicht gefunden: {$path}");
     }
 
-    // Kopfzeile bereinigen (BOM von Excel, Leerzeichen)
+    // Kopfzeile bereinigen
     $headers = fgetcsv($handle, 0, ',', '"', '');
     $headers[0] = preg_replace('/^\x{FEFF}/u', '', (string) $headers[0]);
     $headers = array_map('trim', $headers);
